@@ -1,0 +1,38 @@
+Interact With Blockchain Network
+
+Docker
+
+apt install build-essential
+Apt install nodejs
+node -v
+npm -v
+
+Open VSCode > Extension > More > Install From VSIX
+
+Choose ibm-blockchain-platform-2.0.8.vsix
+Install it
+
+docker pull ibmcom/ibp-microfab
+
+
+-- TO RUN DEFAULT
+docker run -d -p 8080:8080 --name microfab ibmcom/ibp-microfab
+
+-- CUSTOM RUN
+nano microfab-config.json
+{
+  "organizations": [
+    { "msp_id": "Org1MSP" },
+    { "msp_id": "Org2MSP" }
+  ],
+  "channels": [
+    {
+      "name": "mychannel",
+      "organizations": ["Org1MSP", "Org2MSP"]
+    }
+  ]
+}
+
+docker run -d -p 8080:8080 \
+  -e MICROFAB_CONFIG="$(cat microfab-config.json)" \
+  --name microfab ibmcom/ibp-microfab
