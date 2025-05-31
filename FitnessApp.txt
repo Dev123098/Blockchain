@@ -1,0 +1,37 @@
+Fitness App
+
+Docker
+
+Curl -O link
+chmod u+x prereqs-ubuntu.sh
+./prereqs-ubuntu.sh
+
+npm install -g composer-cli@0.20
+npm install -g composer-rest-server@0.20
+npm install -g composer-playground@0.20
+
+./downloadFabric.sh
+./startFabric.sh
+./createPeerAdmin.sh
+./stopFabric.sh
+
+npm install
+
+composer network install --archiveFile wolfpack-fitclub-fitcoin.bna --card PeerAdmin@hlfv1
+
+composer card create -n wolfpack-fitclub-fitcoin -p ../../fabric-dev-servers/DevServer_connection.json -u admin -s adminpw
+
+composer card import -f admin@wolfpack-fitclub-fitcoin.card
+
+composer network ping -c admin@wolfpack-fitclub-fitcoin
+
+composer-rest-server -p 3020 -c admin@wolfpack-fitclub-fitcoin -n never
+
+
+curl -X POST --header 'Content-Type: 'application/json' --header ' Accept: application/json'
+-d '{"$class":"org.fitclub. fitcoinSetupDemo"}' 'http://localhost:3020/api/SetupDemo'
+
+curl -X GET —header 'Accept:application.json' 'http://IocaIhost:3020/api/Member'
+
+npm install
+npm start
