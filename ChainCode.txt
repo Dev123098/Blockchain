@@ -1,0 +1,55 @@
+ChainCode
+
+Hyperledger Fabric
+
+cd fabric-samples/asset-transfer-basic/chaincode-go
+peer lifecycle chaincode package basic.tar.gz \
+  --path ./ \
+  --lang golang \
+  --label basic_1
+
+export CORE_PEER_LOCALMSPID="Org1MSP"
+export CORE_PEER_TLS_ROOTCERT_FILE=$PWD/../organizations/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=$PWD/../organizations/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
+export CORE_PEER_ADDRESS=localhost:7051
+
+peer lifecycle chaincode install basic.tar.gz
+
+export CORE_PEER_LOCALMSPID="Org2MSP"
+export CORE_PEER_TLS_ROOTCERT_FILE=$PWD/../organizations/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+export CORE_PEER_MSPCONFIGPATH=$PWD/../organizations/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+export CORE_PEER_ADDRESS=localhost:9051
+
+peer lifecycle chaincode install basic.tar.gz
+
+peer lifecycle chaincode queryinstalled
+Copy the Package ID : basic_1:cf76156f3c1c67b3d78f2ae2ccf6ad8138b3a1edfc738c5e42d80e0da0ed0eda
+
+peer lifecycle chaincode approveformyorg \
+  --channelID mychannel \
+  --name basic \
+  --version 1.0 \
+  --package-id basic_1:<your-package-id> \
+  --sequence 1 \
+  --init-required \
+  --tls --cafile $ORDERER_CA
+
+peer lifecycle chaincode commit \
+  --channelID mychannel \
+  --name basic \
+  --version 1.0 \
+  --sequence 1 \
+  --init-required \
+  --peerAddresses localhost:7051 --tlsRootCertFiles $ORG1_CA \
+  --peerAddresses localhost:9051 --tlsRootCertFiles $ORG2_CA \
+  --tls --cafile $ORDERER_CA
+
+peer chaincode invoke \
+  -o localhost:7050 \
+  --ordererTLSHostnameOverride orderer.example.com \
+  --tls --cafile $ORDERER_CA \
+  -C mychannel -n basic \
+  --isInit \
+  -c '{"Args":["InitLedger"]}'
+
+peer chaincode query -C mychannel -n basic -c '{"Args":["GetAllAssets"]}'
