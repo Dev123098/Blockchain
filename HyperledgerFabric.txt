@@ -1,0 +1,22 @@
+Hyperledger Fabric
+
+Docker
+
+//Install GoLang
+curl -O link
+tar -xvf file
+nano ~/.bashrc
+export GOPATH = $HOME/go
+export PATH = $PATH:$GOPATH/bin
+Source ~/.Bashrc
+
+mkdir fabric-network
+curl -sSL link | bash -s version version
+curl -sSL link | bash -s
+
+cd fabric-samples/test-network
+
+./network.sh up create channel -c mychannel -ca
+docker ps -a
+
+Docker > GoLang > Download Hyperledger fabric > Create Channel
