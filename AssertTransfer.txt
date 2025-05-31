@@ -1,0 +1,9 @@
+Create Assets-transfer App
+
+Interact With Blockchain Network 
+
+In Smart Contract Section Click More > Create New Project > Default Contract > Javascript > Name the asset as Mango > Choose Location > Open in Current Window 
+
+In Smart Contract Section Click More > Package Open Project > v2_0 
+
+In Fabric Management Section > mango-channel > deploy chaincode > choose smart Contract > description > click next > deploy
